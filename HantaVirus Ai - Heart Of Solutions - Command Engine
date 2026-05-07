@@ -1,0 +1,33 @@
+++++++++++>>>Readme.md<<<+++++++++
+
+
+a new Quantum Artificial intelligence Hantavirus ai that helps to fight hantavirus and other dieases using Experiments with a wide variety of microbiology and medicines Mixing Studys with environmental Ingredients and Petri dishes for ai to fight organisms to see what microbes can Breed, Destroy, and Copy itself etc etc with a wide variety of Knowledge, Tools, etc etc 
+
+
+
+"""
+Project: Hantavirus AI
+Version: 1.0.0-Vampire-Core
+Framework: DeSci (Decentralized Science) & Quantum Microbiology
+Entities: Yrn Vlad III, StrawberryFi, Dracoxus-XRAI, Thoth-Yeshua Ancient Data
+"""
+
+class HantavirusAI:
+    def __init__(self):
+        self.name = "Hantavirus AI"
+        self.ledger = "StrawberryFi Ledger (XRPL-Integrated)"
+        self.token = "StrawberryFi Utility Token"
+        self.manus = "Dracoxus-XRAI Manus (AGI Interface)"
+        
+        # Collaborative Bot Network
+        self.nodes = {
+            "Medical": ["NurseBot", "DoctorBot", "ScientistBot"],
+            "Creative": ["Yrn Vlad III Bot", "DracoriseAI"],
+            "Infrastructure": ["Edge AI", "StrawberryFibot", "Ajenti AI"],
+            "LLM_Gateways": ["ChatGPT", "Grok", "Claude", "Anthropic"]
+        }
+
+    def awareness_protocol(self):
+        """Spreads awareness across US and Allied territories"""
+        hashtags = [
+            "#HantavirusAwareness",
