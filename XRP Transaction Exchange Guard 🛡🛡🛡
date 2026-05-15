@@ -1,0 +1,61 @@
+###Readme.md##020
+
+a security system designed for xrp to help defend against hacks and deepfakes 
+
+
+import xrpl
+from xrpl.clients import JsonRpcClient
+from xrpl.models.transactions import Payment
+from xrpl.utils import xrp_to_drops
+
+# 1. SETUP: Connect to the XRP Ledger
+# Use Testnet for testing, Mainnet for real transactions
+JSON_RPC_URL = "https://s2.ripple.com:51234/" 
+client = JsonRpcClient(JSON_RPC_URL)
+
+def safety_check_transaction(destination, amount_xrp, memo=""):
+    """
+    Scans a transaction for common Ripple scam patterns.
+    """
+    print(f"--- SECURITY SCANNING TRANSACTION ---")
+    
+    # ALERT 1: Check for "Doubling" phrases in Memos
+    scam_keywords = ["double", "giveaway", "airdrop", "bonus", "reward"]
+    if any(word in memo.lower() for word in scam_keywords):
+        print("⚠️  WARNING: Potential 'Doubling' Scam detected in Memo!")
+        return False
+
+    # ALERT 2: High Value Check
+    # Scammers often push for 1000+ XRP
+    if amount_xrp > 500:
+        print(f"🚨 ALERT: High value transaction ({amount_xrp} XRP). Verify recipient identity!")
+
+    # ALERT 3: Ripple "Official" Impersonation
+    # Ripple will NEVER ask you to send XRP to an address to 'verify' your account.
+    if "ripple" in memo.lower() or "support" in memo.lower():
+        print("❌ CRITICAL: Ripple does not have Telegram support or 'send-to-verify' schemes.")
+        return False
+
+    print("✅ Basic safety scan complete. No immediate scam flags found.")
+    return True
+
+def create_secure_payment(sender_wallet, destination_address, amount_xrp, memo_text):
+    # Run our safety logic
+    if not safety_check_transaction(destination_address, amount_xrp, memo_text):
+        print("Transaction ABORTED for your safety.")
+        return
+
+    # Build the transaction if safe
+    payment = Payment(
+        account=sender_wallet.classic_address,
+        amount=xrp_to_drops(amount_xrp),
+        destination=destination_address,
+        memos=[xrpl.models.transactions.Memo.from_dict({"memo_data": memo_text.encode("utf-8").hex()})]
+    )
+    
+    print(f"Transaction ready for {amount_xrp} XRP to {destination_address}")
+    return payment
+
+# Example usage:
+# my_wallet = xrpl.wallet.Wallet.from_seed("your-seed-here")
+# create_secure_payment(my_wallet, "rDestination...", 10, "Giveaway double")
