@@ -1,0 +1,299 @@
+###01sbifrow Readme.md foa9r0xjk
+
+
+A simple code used for anayalizing And Testing the Proof of The Ecosystem 
+
+
+# =====================================================
+# ZetaFi BioVision AI
+# Unified Research Prototype
+# =====================================================
+
+import cv2
+import json
+import hashlib
+import datetime
+from ultralytics import YOLO
+
+# =====================================================
+# SENSOR SYSTEM
+# =====================================================
+
+class SensorFusion:
+
+    def __init__(self):
+
+        self.sources = {
+            "microscope": "microscope.jpg",
+            "telescope": "telescope.jpg",
+            "magnifier": "magnifier.jpg",
+            "air_sampler": "air_sample.jpg"
+        }
+
+    def collect(self):
+
+        images = []
+
+        for source in self.sources.values():
+
+            image = cv2.imread(source)
+
+            if image is not None:
+                images.append(image)
+
+        return images
+
+
+# =====================================================
+# AI IMAGE ENHANCEMENT
+# =====================================================
+
+class QuantumZoomAI:
+
+    def enhance(self, image):
+
+        kernel = [
+            [0,-1,0],
+            [-1,5,-1],
+            [0,-1,0]
+        ]
+
+        enhanced = cv2.filter2D(image,-1,kernel)
+
+        return enhanced
+
+
+# =====================================================
+# MICROBE DETECTION
+# =====================================================
+
+class MicrobeDetector:
+
+    def __init__(self):
+
+        self.model = YOLO("microbe_model.pt")
+
+    def detect(self, image):
+
+        results = self.model.predict(
+            source=image,
+            conf=0.25
+        )
+
+        return results
+
+
+# =====================================================
+# MANUS AGENT
+# =====================================================
+
+class ManusAgent:
+
+    def analyze(self, detections):
+
+        return {
+            "agent": "MANUS",
+            "finding":
+            "Pattern analysis complete."
+        }
+
+
+# =====================================================
+# DESCI AGENT
+# =====================================================
+
+class DeSciAgent:
+
+    def validate(self, detections):
+
+        return {
+            "agent": "DeSci",
+            "validation":
+            "Scientific record generated."
+        }
+
+
+# =====================================================
+# VLAD III AGENT
+# =====================================================
+
+class VladIII:
+
+    def intelligence(self, detections):
+
+        return {
+            "agent": "VLAD III",
+            "risk_assessment":
+            "Low biological threat detected."
+        }
+
+
+# =====================================================
+# ZETAFI ENGINE
+# =====================================================
+
+class ZetaFi:
+
+    def forecast(self, detection_count):
+
+        if detection_count > 100:
+
+            return {
+                "trend":"Increasing",
+                "alert":"HIGH"
+            }
+
+        elif detection_count > 25:
+
+            return {
+                "trend":"Stable",
+                "alert":"MEDIUM"
+            }
+
+        return {
+            "trend":"Low",
+            "alert":"LOW"
+        }
+
+
+# =====================================================
+# LEDGER SYSTEM
+# =====================================================
+
+class Ledger:
+
+    def store(self, report):
+
+        payload = json.dumps(
+            report,
+            indent=2
+        )
+
+        record_hash = hashlib.sha256(
+            payload.encode()
+        ).hexdigest()
+
+        filename = (
+            "record_" +
+            record_hash[:12] +
+            ".json"
+        )
+
+        with open(filename,"w") as f:
+
+            f.write(payload)
+
+        return {
+            "hash":record_hash,
+            "file":filename
+        }
+
+
+# =====================================================
+# CENTRAL AI COMMAND
+# =====================================================
+
+class ZetaFiBioVision:
+
+    def __init__(self):
+
+        self.sensor = SensorFusion()
+
+        self.zoom_ai = QuantumZoomAI()
+
+        self.detector = MicrobeDetector()
+
+        self.manus = ManusAgent()
+
+        self.desci = DeSciAgent()
+
+        self.vlad = VladIII()
+
+        self.zetafi = ZetaFi()
+
+        self.ledger = Ledger()
+
+    def run(self):
+
+        images = self.sensor.collect()
+
+        total_detections = []
+
+        for image in images:
+
+            enhanced = self.zoom_ai.enhance(image)
+
+            results = self.detector.detect(
+                enhanced
+            )
+
+            total_detections.extend(results)
+
+        manus_report = self.manus.analyze(
+            total_detections
+        )
+
+        desci_report = self.desci.validate(
+            total_detections
+        )
+
+        vlad_report = self.vlad.intelligence(
+            total_detections
+        )
+
+        zetafi_report = self.zetafi.forecast(
+            len(total_detections)
+        )
+
+        report = {
+
+            "timestamp":
+            str(datetime.datetime.utcnow()),
+
+            "detections":
+            len(total_detections),
+
+            "manus":
+            manus_report,
+
+            "desci":
+            desci_report,
+
+            "vlad":
+            vlad_report,
+
+            "zetafi":
+            zetafi_report
+        }
+
+        ledger_record = self.ledger.store(
+            report
+        )
+
+        report["ledger"] = ledger_record
+
+        return report
+
+
+# =====================================================
+# MAIN
+# =====================================================
+
+if __name__ == "__main__":
+
+    system = ZetaFiBioVision()
+
+    report = system.run()
+
+    print(
+        json.dumps(
+            report,
+            indent=4
+        )
+    )
+
+
+
+
+
+
